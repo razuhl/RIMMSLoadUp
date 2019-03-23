@@ -5,7 +5,7 @@ This mod adds community solutions for improving load times in Rimworld.
 
 Corresponding [discussion](https://ludeon.com/forums/index.php?topic=47478.30) on ludeon forum.
 
-Feautures
+Features
 - The lookup for types referenced in xml is cached so that the work is not repeated.
 - The preview images for mods were loaded during startup but never used. The images are now only loaded when looking at the mod list.
 - Corrected xml iterations to avoid unnecessary searches.
