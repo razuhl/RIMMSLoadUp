@@ -63,7 +63,9 @@
   <ItemGroup>
     <Compile Include="CacheTypeLookup.cs" />
     <Compile Include="DelayLoadingModPreviewImages.cs" />
+    <Compile Include="DumpCombinedXML.cs" />
     <Compile Include="EagerPatchCleanup.cs" />
+    <Compile Include="IgnoreCommentsInXML.cs" />
     <Compile Include="LoadUp.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="XMLReplacement.cs" />
