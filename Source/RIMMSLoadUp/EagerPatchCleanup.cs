@@ -18,9 +18,10 @@ namespace RIMMSLoadUp
 	/// <summary>
 	/// Description of EagerPatchCleanup.
 	/// </summary>
-	[HarmonyPatch(typeof(Verse.LoadedModManager))]
+	/*[HarmonyPatch(typeof(Verse.LoadedModManager))]
 	[HarmonyPatch("ApplyPatches")]
 	static class ApplyPatchesPatch {
+		[HarmonyPriority(Priority.Last)]
 		static bool Prefix(XmlDocument xmlDoc, Dictionary<XmlNode, LoadableXmlAsset> assetlookup) {
 			foreach (ModContentPack mcp in LoadedModManager.RunningMods) {
 				foreach ( PatchOperation po in mcp.Patches ) {
@@ -47,8 +48,9 @@ namespace RIMMSLoadUp
 	[HarmonyPatch(typeof(Verse.LoadedModManager))]
 	[HarmonyPatch("ClearCachedPatches")]
 	static class ClearCachedPatchesPatch {
+		[HarmonyPriority(Priority.Last)]
 		static bool Prefix() {
 			return false;
 		}
-	}
+	}*/
 }

@@ -16,9 +16,10 @@ using Verse;
 
 namespace RIMMSLoadUp
 {
-	[HarmonyPatch(typeof(Verse.XmlInheritance))]
-	[HarmonyPatch("TryRegisterAllFrom")]
+	//[HarmonyPatch(typeof(Verse.XmlInheritance))]
+	//[HarmonyPatch("TryRegisterAllFrom")]
 	static class TryRegisterAllFromPatch {
+		[HarmonyPriority(Priority.Last)]
 		static bool Prefix(LoadableXmlAsset xmlAsset, ModContentPack mod) {
 			if (xmlAsset.xmlDoc == null) {
 				return false;
@@ -77,9 +78,10 @@ namespace RIMMSLoadUp
 		}*/
 	}
 	
-	[HarmonyPatch(typeof(Verse.LoadedModManager))]
-	[HarmonyPatch("ParseAndProcessXML")]
+	//[HarmonyPatch(typeof(Verse.LoadedModManager))]
+	//[HarmonyPatch("ParseAndProcessXML")]
 	static class ParseAndProcessXMLPatch {
+		[HarmonyPriority(Priority.Last)]
 		static bool Prefix(XmlDocument xmlDoc, Dictionary<XmlNode, LoadableXmlAsset> assetlookup) {
 			XmlNodeList childNodes = xmlDoc.DocumentElement.ChildNodes;
 			foreach ( XmlNode n in childNodes )
@@ -122,9 +124,10 @@ namespace RIMMSLoadUp
 		}
 	}
 	
-	[HarmonyPatch(typeof(Verse.ModContentPack))]
-	[HarmonyPatch("LoadPatches")]
+	//[HarmonyPatch(typeof(Verse.ModContentPack))]
+	//[HarmonyPatch("LoadPatches")]
 	static class LoadPatchesPatch {
+		[HarmonyPriority(Priority.Last)]
 		static bool Prefix(Verse.ModContentPack __instance) {
 			DeepProfiler.Start("Loading all patches");
 			List<PatchOperation> lst = new List<PatchOperation>();
@@ -140,14 +143,12 @@ namespace RIMMSLoadUp
 				}
 				else
 				{
-					for (int j = 0; j < documentElement.ChildNodes.Count; j++)
-					{
-						XmlNode xmlNode = documentElement.ChildNodes[j];
+					foreach ( XmlNode xmlNode in documentElement.ChildNodes ) {
 						if (xmlNode.NodeType == XmlNodeType.Element)
 						{
 							if (xmlNode.Name != "Operation")
 							{
-								Log.Error(string.Format("Unexpected element in patch XML; got {0}, expected 'Operation'", documentElement.ChildNodes[j].Name), false);
+								Log.Error(string.Format("Unexpected element in patch XML; got {0}, expected 'Operation'", xmlNode.Name), false);
 							}
 							else
 							{
@@ -177,9 +178,10 @@ namespace RIMMSLoadUp
 	// Verse.PatchOperationReplace
 	//protected override bool ApplyWorker(XmlDocument xml)
 	
-	[HarmonyPatch(typeof(Verse.XmlInheritance))]
-	[HarmonyPatch("RecursiveNodeCopyOverwriteElements")]
+	//[HarmonyPatch(typeof(Verse.XmlInheritance))]
+	//[HarmonyPatch("RecursiveNodeCopyOverwriteElements")]
 	static class RecursiveNodeCopyOverwriteElementsPatch {
+		[HarmonyPriority(Priority.Last)]
 		static bool Prefix(XmlNode child, XmlNode current) {
 			XmlAttribute xmlAttribute = child.Attributes["Inherit"];
 			if (xmlAttribute != null && xmlAttribute.Value.ToLower() == "false")
