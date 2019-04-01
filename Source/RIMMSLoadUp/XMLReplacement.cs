@@ -16,8 +16,8 @@ using Verse;
 
 namespace RIMMSLoadUp
 {
-	//[HarmonyPatch(typeof(Verse.XmlInheritance))]
-	//[HarmonyPatch("TryRegisterAllFrom")]
+	[HarmonyPatch(typeof(Verse.XmlInheritance))]
+	[HarmonyPatch("TryRegisterAllFrom")]
 	static class TryRegisterAllFromPatch {
 		[HarmonyPriority(Priority.Last)]
 		static bool Prefix(LoadableXmlAsset xmlAsset, ModContentPack mod) {
@@ -78,8 +78,8 @@ namespace RIMMSLoadUp
 		}*/
 	}
 	
-	//[HarmonyPatch(typeof(Verse.LoadedModManager))]
-	//[HarmonyPatch("ParseAndProcessXML")]
+	[HarmonyPatch(typeof(Verse.LoadedModManager))]
+	[HarmonyPatch("ParseAndProcessXML")]
 	static class ParseAndProcessXMLPatch {
 		[HarmonyPriority(Priority.Last)]
 		static bool Prefix(XmlDocument xmlDoc, Dictionary<XmlNode, LoadableXmlAsset> assetlookup) {
@@ -124,8 +124,8 @@ namespace RIMMSLoadUp
 		}
 	}
 	
-	//[HarmonyPatch(typeof(Verse.ModContentPack))]
-	//[HarmonyPatch("LoadPatches")]
+	[HarmonyPatch(typeof(Verse.ModContentPack))]
+	[HarmonyPatch("LoadPatches")]
 	static class LoadPatchesPatch {
 		[HarmonyPriority(Priority.Last)]
 		static bool Prefix(Verse.ModContentPack __instance) {
@@ -178,8 +178,8 @@ namespace RIMMSLoadUp
 	// Verse.PatchOperationReplace
 	//protected override bool ApplyWorker(XmlDocument xml)
 	
-	//[HarmonyPatch(typeof(Verse.XmlInheritance))]
-	//[HarmonyPatch("RecursiveNodeCopyOverwriteElements")]
+	[HarmonyPatch(typeof(Verse.XmlInheritance))]
+	[HarmonyPatch("RecursiveNodeCopyOverwriteElements")]
 	static class RecursiveNodeCopyOverwriteElementsPatch {
 		[HarmonyPriority(Priority.Last)]
 		static bool Prefix(XmlNode child, XmlNode current) {

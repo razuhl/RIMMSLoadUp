@@ -9,20 +9,41 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Xml;
 using Harmony;
 using Verse;
 
 namespace RIMMSLoadUp
 {
-	/// <summary>
-	/// Description of EagerPatchCleanup.
-	/// </summary>
-	/*[HarmonyPatch(typeof(Verse.LoadedModManager))]
+	[HarmonyPatch(typeof(Verse.LoadedModManager))]
 	[HarmonyPatch("ApplyPatches")]
 	static class ApplyPatchesPatch {
+		public static bool? foundLoadOnDemandAssembly;
+		
+		public static bool FoundConflictingAssembly {
+			get {
+				//If the LoadOnDemand assembly appears we skip these patches. LoadOnDemand is marking itself as "do not loop" after it cedes control to other code, causing infinite loops.
+				if ( foundLoadOnDemandAssembly == null ) {
+					foundLoadOnDemandAssembly = false;
+					foreach (ModContentPack mod in LoadedModManager.RunningMods) {
+						if ( mod.assemblies.loadedAssemblies.Find(ass=>ass.GetName().Name == "LoadOnDemand") != null ) {
+							Log.Message("Skipping RIMMSLoadUp.EagerPatchCleanup --- found LoadOnDemand assembly");
+							foundLoadOnDemandAssembly = true;
+							break;
+						}
+					}
+				}
+				return foundLoadOnDemandAssembly.Value;
+			}
+		}
+		
 		[HarmonyPriority(Priority.Last)]
 		static bool Prefix(XmlDocument xmlDoc, Dictionary<XmlNode, LoadableXmlAsset> assetlookup) {
+			if ( FoundConflictingAssembly ) {
+				return true;
+			}
+			
 			foreach (ModContentPack mcp in LoadedModManager.RunningMods) {
 				foreach ( PatchOperation po in mcp.Patches ) {
 					try {
@@ -39,6 +60,8 @@ namespace RIMMSLoadUp
 					}
 				}
 				mcp.ClearPatchesCache();
+				//preventing other code to trigger the reloading of patch information
+				mcp.GetType().GetField("patches",BindingFlags.Instance|BindingFlags.NonPublic|BindingFlags.Public).SetValue(mcp,new List<PatchOperation>());
 			}
 			
 			return false;
@@ -50,7 +73,7 @@ namespace RIMMSLoadUp
 	static class ClearCachedPatchesPatch {
 		[HarmonyPriority(Priority.Last)]
 		static bool Prefix() {
-			return false;
+			return ApplyPatchesPatch.FoundConflictingAssembly;
 		}
-	}*/
+	}
 }

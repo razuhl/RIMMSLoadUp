@@ -13,9 +13,6 @@ using Verse;
 
 namespace RIMMSLoadUp
 {
-	/// <summary>
-	/// Description of LoadUp.
-	/// </summary>
 	public class LoadUp : Mod
 	{
 		public LoadUp(ModContentPack content) : base(content) {
