@@ -27,7 +27,8 @@ namespace RIMMSLoadUp
 		static void SaveXMLToFile(string fileName, XmlDocument xml) {
 			FileInfo file = new FileInfo(Path.Combine(GenFilePaths.SaveDataFolderPath, fileName));
 			try {
-				using (var writer = XmlWriter.Create(file.OpenWrite(), new XmlWriterSettings{Indent = false,OmitXmlDeclaration = true,NewLineHandling = NewLineHandling.Replace}))
+				using (FileStream fs = file.OpenWrite()) 
+				using (var writer = XmlWriter.Create(fs, new XmlWriterSettings{Indent = false,OmitXmlDeclaration = true,NewLineHandling = NewLineHandling.Replace}))
 				{
 					xml.WriteTo(writer);
 				}
