@@ -32,6 +32,11 @@ namespace RIMMSLoadUp
 							foundLoadOnDemandAssembly = true;
 							break;
 						}
+						if ( mod.assemblies.loadedAssemblies.Find(ass=>ass.GetName().Name == "ModCheck") != null ) {
+							Log.Message("Skipping RIMMSLoadUp.EagerPatchCleanup --- found ModCheck assembly");
+							foundLoadOnDemandAssembly = true;
+							break;
+						}
 					}
 				}
 				return foundLoadOnDemandAssembly.Value;
