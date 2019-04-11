@@ -29,11 +29,9 @@ namespace RIMMSLoadUp
 			allowLoadingPreviewImages = false;
 			//clear loaded images
 			foreach ( ModMetaData meta in ModLister.AllInstalledMods ) {
-				if ( meta.previewImage != null ) {
-					Resources.UnloadAsset(meta.previewImage);
-					meta.previewImage = null;
-				}
+				meta.previewImage = null;
 			}
+			Resources.UnloadUnusedAssets();
 		}
 		
 		static public void AllowLoadingPreviewImages() {
